@@ -1,10 +1,18 @@
 package com.bridgelabz.hotelreservationsystem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class HotelOperation {
+
+	public static final Scanner SC = new Scanner(System.in);
 
 	private List<Hotel> hotelList;
 
@@ -13,12 +21,11 @@ public class HotelOperation {
 	}
 
 	public void addHotel() {
-		Scanner sc = new Scanner(System.in);
 		Hotel newHotel = new Hotel();
 		System.out.println("Enter hotel name : ");
-		newHotel.setHotelName(sc.next());
+		newHotel.setHotelName(SC.next());
 		System.out.println("Enter rate for regular customer : ");
-		newHotel.setRateForRegularCustomer(sc.nextInt());
+		newHotel.setRateForRegularCustomer(SC.nextInt());
 		hotelList.add(newHotel);
 	}
 
@@ -29,6 +36,30 @@ public class HotelOperation {
 			for (Hotel hotel : hotelList)
 				System.out.println(hotel.toString());
 		}
+	}
+
+	public void findCheapestHotel() throws DateTimeParseException {
+
+		System.out.println("Enter start date and end date int the format (yyyy-MM-dd),(yyyy-MM-dd)");
+		String line=SC.next();
+		String[] input=line.split(",");
+		
+		LocalDate startDate = LocalDate.parse(input[0]);
+		LocalDate endDate = LocalDate.parse(input[1]);
+		
+		int dateDifference=(int)ChronoUnit.DAYS.between(startDate, endDate);
+		int cheapestRate=999999999;
+		String cheapestHotel="";
+		
+		for(Hotel hotel : hotelList) {
+			int rateForHotel=dateDifference*hotel.getRateForRegularCustomer();
+			if(rateForHotel<cheapestRate) {
+				cheapestRate=rateForHotel;
+				cheapestHotel=hotel.getHotelName();
+			}
+		}
+		if(cheapestRate!=999999999)
+			System.out.println("Cheapest Hotel : \n"+cheapestHotel+", Total Rates: "+cheapestRate);
 	}
 
 }
