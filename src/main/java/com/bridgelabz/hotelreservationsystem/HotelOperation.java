@@ -60,11 +60,9 @@ public class HotelOperation {
 
 		int totalDateDifference = (int) ChronoUnit.DAYS.between(startDate, endDate);
 		System.out.println("totalDateDifference  " + totalDateDifference);
-		int cheapestRate = 999999999;
-		String cheapestHotel = "";
+
 		int noOfWeekdends = 0;
 		int noOfWeekdays = 0;
-		int maxRating=0;
 
 		while (startDate.compareTo(endDate) != 0) {
 			switch (DayOfWeek.of(startDate.get(ChronoField.DAY_OF_WEEK))) {
@@ -81,23 +79,74 @@ public class HotelOperation {
 		}
 
 		noOfWeekdays = totalDateDifference - noOfWeekdends;
+		System.out.println("Check by:");
+		System.out.println("1. Best price");
+		System.out.println("2. Best rating");
+		System.out.println("Enter your choice : ");
+		int choice = SC.nextInt();
+		switch (choice) {
+
+		case 1:
+			findCheapestBestRatedHotel(noOfWeekdays, noOfWeekdends);
+			break;
+		case 2:
+			findBestRatedHotel(noOfWeekdays, noOfWeekdends);
+			break;
+		default:
+			System.out.println("Invalid choide entered.");
+		}
+	}
+
+	public void findCheapestBestRatedHotel(int noOfWeekdays, int noOfWeekdends) {
+		String cheapestHotel = "";
+		int cheapestRate = 999999999;
+		int maxRating = 0;
 		for (Hotel hotel : hotelList) {
 			int rateForHotel = (noOfWeekdays * hotel.getWeekdayRateForRegularCustomer())
 					+ (noOfWeekdends * hotel.getWeekendRateForRegularCustomer());
-			int ratingForHotel=hotel.getRating();
-			if (rateForHotel < cheapestRate){
+			int ratingForHotel = hotel.getRating();
+
+			if (rateForHotel < cheapestRate) {
 				cheapestRate = rateForHotel;
 				cheapestHotel = hotel.getHotelName();
-				maxRating=ratingForHotel;
+				maxRating = ratingForHotel;
 			} else if (rateForHotel == cheapestRate) {
-				if(hotel.getRating()>maxRating) {
+				if (hotel.getRating() > maxRating) {
 					cheapestHotel = hotel.getHotelName();
-					maxRating=ratingForHotel;
+					maxRating = ratingForHotel;
 				}
 			}
 		}
 		if (cheapestRate != 999999999)
-			System.out.println("Cheapest Hotel : \n" + cheapestHotel + ", Rating: "+maxRating+" and Total Rates: " + cheapestRate);
+			System.out.println("Cheapest Best Rated Hotel : \n" + cheapestHotel + ", Rating: " + maxRating
+					+ " and Total Rates: " + cheapestRate);
+		else
+			System.out.println("Total price Limit reached");
+	}
+
+	public void findBestRatedHotel(int noOfWeekdays, int noOfWeekdends) {
+		String cheapestHotel = "";
+		int cheapestRate = 999999999;
+		int maxRating = 0;
+		for (Hotel hotel : hotelList) {
+			int rateForHotel = (noOfWeekdays * hotel.getWeekdayRateForRegularCustomer())
+					+ (noOfWeekdends * hotel.getWeekendRateForRegularCustomer());
+			int ratingForHotel = hotel.getRating();
+
+			if (ratingForHotel > maxRating) {
+				cheapestRate = rateForHotel;
+				cheapestHotel = hotel.getHotelName();
+				maxRating = ratingForHotel;
+			} else if (ratingForHotel == maxRating) {
+				if (rateForHotel < cheapestRate) {
+					cheapestHotel = hotel.getHotelName();
+					cheapestRate = rateForHotel;
+				}
+			}
+		}
+		if (cheapestRate != 999999999)
+			System.out.println("Best Rated Hotel : \n" + cheapestHotel + ", Rating: " + maxRating + " and Total Rates: "
+					+ cheapestRate);
 		else
 			System.out.println("Total price Limit reached");
 	}
