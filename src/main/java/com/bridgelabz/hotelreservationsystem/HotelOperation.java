@@ -1,13 +1,11 @@
 package com.bridgelabz.hotelreservationsystem;
 
-import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,6 +27,16 @@ public class HotelOperation {
 		newHotel.setWeekdayRateForRegularCustomer(SC.nextInt());
 		System.out.println("Enter Weekend rate for regular customer : ");
 		newHotel.setWeekendRateForRegularCustomer(SC.nextInt());
+		System.out.println("Enter the rating(1-5) : ");
+		while(true) {
+			int rating=SC.nextInt();
+			if(rating>=1 && rating<=5) {
+				newHotel.setRating(rating);
+				break;
+			}
+			else
+				System.out.println("Invalid rating. Enter again : ");
+		}		
 		hotelList.add(newHotel);
 	}
 
@@ -51,8 +59,7 @@ public class HotelOperation {
 		LocalDate endDate = LocalDate.parse(input[1]);
 		endDate = endDate.plusDays(1);
 
-		int totalDateDifference = (int) ChronoUnit.DAYS.between(startDate, endDate);
-		System.out.println("totalDateDifference  " + totalDateDifference);
+		int totalDateDifference = (int) ChronoUnit.DAYS.between(startDate, endDate);System.out.println("totalDateDifference  " + totalDateDifference);
 		int cheapestRate = 999999999;
 		String cheapestHotel = "";
 		int noOfWeekdends = 0;
@@ -65,6 +72,8 @@ public class HotelOperation {
 				break;
 			case SUNDAY:
 				++noOfWeekdends;
+				break;
+			default:
 				break;
 			}
 			startDate = startDate.plusDays(1);

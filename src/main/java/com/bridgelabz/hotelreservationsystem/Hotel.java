@@ -5,6 +5,7 @@ public class Hotel {
 	String hotelName;
 	int weekdayRateForRegularCustomer;
 	int weekendRateForRegularCustomer;
+	int rating;
 
 	public String getHotelName() {
 		return hotelName;
@@ -30,9 +31,17 @@ public class Hotel {
 		this.weekendRateForRegularCustomer = weekendRateForRegularCustomer;
 	}
 
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	@Override
 	public String toString() {
-		return (hotelName + "\t" + weekdayRateForRegularCustomer + "\t" + weekendRateForRegularCustomer + "\t");
+		return (hotelName + "\t" + weekdayRateForRegularCustomer + "\t" + weekendRateForRegularCustomer + "\t"+rating+"\t");
 
 	}
 
