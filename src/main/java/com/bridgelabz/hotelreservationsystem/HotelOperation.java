@@ -24,8 +24,10 @@ public class HotelOperation {
 		Hotel newHotel = new Hotel();
 		System.out.println("Enter hotel name : ");
 		newHotel.setHotelName(SC.next());
-		System.out.println("Enter rate for regular customer : ");
-		newHotel.setRateForRegularCustomer(SC.nextInt());
+		System.out.println("Enter Weekday rate for regular customer : ");
+		newHotel.setWeekdayRateForRegularCustomer(SC.nextInt());
+		System.out.println("Enter Weekend rate for regular customer : ");
+		newHotel.setWeekendRateForRegularCustomer(SC.nextInt());
 		hotelList.add(newHotel);
 	}
 
@@ -38,28 +40,28 @@ public class HotelOperation {
 		}
 	}
 
-	public void findCheapestHotel() throws DateTimeParseException {
-
-		System.out.println("Enter start date and end date int the format (yyyy-MM-dd),(yyyy-MM-dd)");
-		String line=SC.next();
-		String[] input=line.split(",");
-		
-		LocalDate startDate = LocalDate.parse(input[0]);
-		LocalDate endDate = LocalDate.parse(input[1]);
-		
-		int dateDifference=(int)ChronoUnit.DAYS.between(startDate, endDate);
-		int cheapestRate=999999999;
-		String cheapestHotel="";
-		
-		for(Hotel hotel : hotelList) {
-			int rateForHotel=dateDifference*hotel.getRateForRegularCustomer();
-			if(rateForHotel<cheapestRate) {
-				cheapestRate=rateForHotel;
-				cheapestHotel=hotel.getHotelName();
-			}
-		}
-		if(cheapestRate!=999999999)
-			System.out.println("Cheapest Hotel : \n"+cheapestHotel+", Total Rates: "+cheapestRate);
-	}
+//	public void findCheapestHotel() throws DateTimeParseException {
+//
+//		System.out.println("Enter start date and end date int the format (yyyy-MM-dd),(yyyy-MM-dd)");
+//		String line=SC.next();
+//		String[] input=line.split(",");
+//		
+//		LocalDate startDate = LocalDate.parse(input[0]);
+//		LocalDate endDate = LocalDate.parse(input[1]);
+//		
+//		int dateDifference=(int)ChronoUnit.DAYS.between(startDate, endDate);
+//		int cheapestRate=999999999;
+//		String cheapestHotel="";
+//		
+//		for(Hotel hotel : hotelList) {
+//			int rateForHotel=dateDifference*hotel.getWeekdayRateForRegularCustomer();
+//			if(rateForHotel<cheapestRate) {
+//				cheapestRate=rateForHotel;
+//				cheapestHotel=hotel.getHotelName();
+//			}
+//		}
+//		if(cheapestRate!=999999999)
+//			System.out.println("Cheapest Hotel : \n"+cheapestHotel+", Total Rates: "+cheapestRate);
+//	}
 
 }

@@ -13,11 +13,11 @@ public class HotelReservationMain {
 		do {
 			System.out.println("1. Add Hotel");
 			System.out.println("2. Display Hotels");
-			System.out.println("3. Find Cheapest Hotel for given Date Range");
-			System.out.println("4. Exit");
+		//	System.out.println("3. Find Cheapest Hotel for given Date Range");
+			System.out.println("3. Exit");
 			System.out.println("Enter your choice : ");
 			int choice=SC.nextInt();
-			if(choice==4)
+			if(choice==3)
 				break;
 			switch(choice) {
 			case 1:
@@ -26,9 +26,9 @@ public class HotelReservationMain {
 			case 2:
 				operationObject.displayHotels();
 				break;
-			case 3:
-				operationObject.findCheapestHotel();
-				break;
+//			case 3:
+//				operationObject.findCheapestHotel();
+//				break;
 			default:
 				System.out.println("Invalid option selected");
 			}			
