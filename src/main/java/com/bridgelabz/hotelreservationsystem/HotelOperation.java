@@ -36,6 +36,10 @@ public class HotelOperation {
 			} else
 				System.out.println("Invalid rating. Enter again : ");
 		}
+		System.out.println("Enter Weekday rate for reward customer : ");
+		newHotel.setWeekdayRateForRewardCustomer(SC.nextInt());
+		System.out.println("Enter Weekend rate for reward customer : ");
+		newHotel.setWeekendRateForRewardCustomer(SC.nextInt());
 		hotelList.add(newHotel);
 	}
 
