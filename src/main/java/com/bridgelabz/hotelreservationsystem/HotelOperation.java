@@ -28,15 +28,14 @@ public class HotelOperation {
 		System.out.println("Enter Weekend rate for regular customer : ");
 		newHotel.setWeekendRateForRegularCustomer(SC.nextInt());
 		System.out.println("Enter the rating(1-5) : ");
-		while(true) {
-			int rating=SC.nextInt();
-			if(rating>=1 && rating<=5) {
+		while (true) {
+			int rating = SC.nextInt();
+			if (rating >= 1 && rating <= 5) {
 				newHotel.setRating(rating);
 				break;
-			}
-			else
+			} else
 				System.out.println("Invalid rating. Enter again : ");
-		}		
+		}
 		hotelList.add(newHotel);
 	}
 
@@ -59,11 +58,13 @@ public class HotelOperation {
 		LocalDate endDate = LocalDate.parse(input[1]);
 		endDate = endDate.plusDays(1);
 
-		int totalDateDifference = (int) ChronoUnit.DAYS.between(startDate, endDate);System.out.println("totalDateDifference  " + totalDateDifference);
+		int totalDateDifference = (int) ChronoUnit.DAYS.between(startDate, endDate);
+		System.out.println("totalDateDifference  " + totalDateDifference);
 		int cheapestRate = 999999999;
 		String cheapestHotel = "";
 		int noOfWeekdends = 0;
 		int noOfWeekdays = 0;
+		int maxRating=0;
 
 		while (startDate.compareTo(endDate) != 0) {
 			switch (DayOfWeek.of(startDate.get(ChronoField.DAY_OF_WEEK))) {
@@ -83,13 +84,22 @@ public class HotelOperation {
 		for (Hotel hotel : hotelList) {
 			int rateForHotel = (noOfWeekdays * hotel.getWeekdayRateForRegularCustomer())
 					+ (noOfWeekdends * hotel.getWeekendRateForRegularCustomer());
-			if (rateForHotel < cheapestRate) {
+			int ratingForHotel=hotel.getRating();
+			if (rateForHotel < cheapestRate){
 				cheapestRate = rateForHotel;
 				cheapestHotel = hotel.getHotelName();
+				maxRating=ratingForHotel;
+			} else if (rateForHotel == cheapestRate) {
+				if(hotel.getRating()>maxRating) {
+					cheapestHotel = hotel.getHotelName();
+					maxRating=ratingForHotel;
+				}
 			}
 		}
 		if (cheapestRate != 999999999)
-			System.out.println("Cheapest Hotel : \n" + cheapestHotel + ", Total Rates: " + cheapestRate);
+			System.out.println("Cheapest Hotel : \n" + cheapestHotel + ", Rating: "+maxRating+" and Total Rates: " + cheapestRate);
+		else
+			System.out.println("Total price Limit reached");
 	}
 
 }
