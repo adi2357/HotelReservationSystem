@@ -23,27 +23,81 @@ public class HotelOperation {
 		hotelList = new ArrayList<Hotel>();
 	}
 
-	public void addHotel() {
+	public void addHotel() throws HotelRegistrationException {
 		Hotel newHotel = new Hotel();
-		System.out.println("Enter hotel name : ");
-		newHotel.setHotelName(SC.next());
-		System.out.println("Enter Weekday rate for regular customer : ");
-		newHotel.setWeekdayRateForRegularCustomer(SC.nextInt());
-		System.out.println("Enter Weekend rate for regular customer : ");
-		newHotel.setWeekendRateForRegularCustomer(SC.nextInt());
-		System.out.println("Enter the rating(1-5) : ");
-		while (true) {
-			int rating = SC.nextInt();
-			if (rating >= 1 && rating <= 5) {
-				newHotel.setRating(rating);
-				break;
-			} else
-				System.out.println("Invalid rating. Enter again : ");
+
+		boolean success = false;
+		while (!success) {
+			System.out.println("Enter hotel name : ");
+			String hotelName = SC.next();
+			try {
+				newHotel.setHotelName(hotelName);
+				success = true;
+			} catch (HotelRegistrationException e1) {
+				System.out.println("Error : " + e1.getMessage() + ". Please enter again");
+			}
 		}
-		System.out.println("Enter Weekday rate for reward customer : ");
-		newHotel.setWeekdayRateForRewardCustomer(SC.nextInt());
-		System.out.println("Enter Weekend rate for reward customer : ");
-		newHotel.setWeekendRateForRewardCustomer(SC.nextInt());
+
+		success = false;
+		while (!success) {
+			System.out.println("Enter Weekday rate for regular customer : ");
+			int weekdayRateForRegularCustomer = SC.nextInt();
+			try {
+				newHotel.setWeekdayRateForRegularCustomer(weekdayRateForRegularCustomer);
+				success = true;
+			} catch (HotelRegistrationException e2) {
+				System.out.println("Error : " + e2.getMessage() + ". Please enter again");
+			}
+		}
+
+		success = false;
+		while (!success) {
+			System.out.println("Enter Weekend rate for regular customer : ");
+			int weekendRateForRegularCustomer = SC.nextInt();
+			try {
+				newHotel.setWeekendRateForRegularCustomer(weekendRateForRegularCustomer);
+				success = true;
+			} catch (HotelRegistrationException e3) {
+				System.out.println("Error : " + e3.getMessage() + ". Please enter again");
+			}
+		}
+
+		success = false;
+		while (!success) {
+			System.out.println("Enter the rating(1-5) : ");
+			int rating = SC.nextInt();
+			try {
+				newHotel.setRating(rating);
+				success = true;
+			} catch (HotelRegistrationException e4) {
+				System.out.println("Error : " + e4.getMessage() + ". Please enter again");
+			}
+		}
+
+		success = false;
+		while (!success) {
+			System.out.println("Enter Weekday rate for reward customer : ");
+			int weekdayRateForRewardCustomer = SC.nextInt();
+			try {
+				newHotel.setWeekdayRateForRewardCustomer(weekdayRateForRewardCustomer);
+				success = true;
+			} catch (HotelRegistrationException e5) {
+				System.out.println("Error : " + e5.getMessage() + ". Please enter again");
+			}
+		}
+
+		success = false;
+		while (!success) {
+			System.out.println("Enter Weekend rate for reward customer : ");
+			int weekendRateForRewardCustomer = SC.nextInt();
+			try {
+				newHotel.setWeekendRateForRewardCustomer(weekendRateForRewardCustomer);
+				success = true;
+			} catch (HotelRegistrationException e6) {
+				System.out.println("Error : " + e6.getMessage() + ". Please enter again");
+			}
+		}
+
 		hotelList.add(newHotel);
 	}
 
@@ -122,17 +176,14 @@ public class HotelOperation {
 		cheapestRate = hotelList.stream()
 				.map(hotel -> computeRateForHotel(hotel, noOfWeekdays, noOfWeekdends, customerType))
 				.min(Integer::compare).get();
-
 		List<Hotel> hotelsWithCheapestRate = hotelList.stream()
 				.filter(hotel -> computeRateForHotel(hotel, noOfWeekdays, noOfWeekdends, customerType) == cheapestRate)
 				.collect(Collectors.toList());
-
 		Hotel cheapestBestRatedHotel = hotelsWithCheapestRate.stream()
 				.max((h1, h2) -> h1.getRating() > h2.getRating() ? 1 : -1).get();
 
 		cheapestBestRatedHotelName = cheapestBestRatedHotel.getHotelName();
 		maxRating = cheapestBestRatedHotel.getRating();
-		
 		if (cheapestRate != 999999999)
 			System.out.println("Cheapest Best Rated Hotel : \n" + cheapestBestRatedHotelName + ", Rating: " + maxRating
 					+ " and Total Rates: " + cheapestRate);
@@ -147,17 +198,15 @@ public class HotelOperation {
 
 		List<Hotel> hotelsWithMaxRating = hotelList.stream().filter(hotel -> hotel.getRating() == maxRating)
 				.collect(Collectors.toList());
-
 		Hotel bestRatedCheapestHotel = hotelsWithMaxRating.stream()
 				.reduce((h1,
 						h2) -> computeRateForHotel(h1, noOfWeekdays, noOfWeekdends,
 								customerType) < computeRateForHotel(h2, noOfWeekdays, noOfWeekdends, customerType) ? h1
 										: h2)
 				.get();
-		
-		bestRatedCheapestHotelName=bestRatedCheapestHotel.getHotelName();
-		cheapestRate=computeRateForHotel(bestRatedCheapestHotel, noOfWeekdays, noOfWeekdends, customerType);
-		
+		bestRatedCheapestHotelName = bestRatedCheapestHotel.getHotelName();
+
+		cheapestRate = computeRateForHotel(bestRatedCheapestHotel, noOfWeekdays, noOfWeekdends, customerType);
 		if (cheapestRate != 999999999)
 			System.out.println("Best Rated Cheapest Hotel : \n" + bestRatedCheapestHotelName + ", Rating: " + maxRating
 					+ " and Total Rates: " + cheapestRate);
